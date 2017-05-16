@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 #import "SBCollectionItem.h"
+#import "ShareMenu.h"
 @interface ViewController ()<NSCollectionViewDataSource,NSCollectionViewDelegate>
+@property (weak) IBOutlet NSScrollView *scrollView;
 
 @property (nonatomic,strong) NSMutableArray *data;
 
@@ -17,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.scrollView setPostsBoundsChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boundsDidChange:) name:NSViewBoundsDidChangeNotification object:self.scrollView.contentView];
+
     [self.collectionView setSelectable:YES];
     [self.collectionView registerNib:[[NSNib alloc]initWithNibNamed:@"SBCollectionItem" bundle:nil] forItemWithIdentifier:@"SBCollectionItem"];
     
@@ -37,38 +42,19 @@
     item.text.stringValue = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.item];
     return item;
 }
-//- (NSSet<NSIndexPath *> *)collectionView:(NSCollectionView *)collectionView shouldChangeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths toHighlightState:(NSCollectionViewItemHighlightState)highlightState NS_AVAILABLE_MAC(10_11);
 
-
-- (void)collectionView:(NSCollectionView *)collectionView didChangeItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths toHighlightState:(NSCollectionViewItemHighlightState)highlightState {
-    NSLog(@"didChangeItemsAtIndexPaths:%@",indexPaths);
-    NSLog(@"%s",__func__);
-}
-
-
-//- (NSSet<NSIndexPath *> *)collectionView:(NSCollectionView *)collectionView shouldSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
-//    
-//}
-
-
-//- (NSSet<NSIndexPath *> *)collectionView:(NSCollectionView *)collectionView shouldDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths NS_AVAILABLE_MAC(10_11);
-
-
-- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
-    NSLog(@"didSelectItemsAtIndexPaths:%@",indexPaths);
-    NSLog(@"%s",__func__);
-}
-
-
-- (void)collectionView:(NSCollectionView *)collectionView didDeselectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths {
-    NSLog(@"didDeselectItemsAtIndexPaths:%@",indexPaths);
-    NSLog(@"%s",__func__);
-}
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
 
     // Update the view, if already loaded.
 }
-
-
+-(void)boundsDidChange:(NSNotification *)notification{
+    [self.view layoutSubtreeIfNeeded];
+    [[ShareMenu share]close];
+    
+}
+-(void)viewDidDisappear{
+    [super viewDidDisappear];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:NSViewBoundsDidChangeNotification object:self.scrollView.contentView];
+}
 @end

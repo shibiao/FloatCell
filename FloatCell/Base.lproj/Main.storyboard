@@ -728,6 +728,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="j4s-53-DpE" id="01P-tP-ScZ"/>
+                        <outlet property="scrollView" destination="4Nz-ft-nsN" id="kBA-5X-kuF"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

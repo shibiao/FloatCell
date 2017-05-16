@@ -22,6 +22,7 @@
     [self.view addTrackingArea:trackingArea];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:nil];
+
 }
 -(void)viewWillAppear{
     [super viewWillAppear];
@@ -31,7 +32,7 @@
 //鼠标移进
 -(void)mouseEntered:(NSEvent *)event{
     [super mouseEntered:event];
-    [[ShareMenu share]popOverMenuWithItem:self];
+    [[ShareMenu share]popOverMenuWithItem:self ];
 }
 //鼠标移出
 -(void)mouseExited:(NSEvent *)event{

@@ -45,15 +45,19 @@ static ShareMenu *menu = nil;
     }
     return _subWindow;
 }
+
 -(void)popOverMenuWithItem:(NSCollectionViewItem *)item {
-    
+    //转换item在contentView中的左边位置
+    NSRect rect = [item.view.window.contentView convertRect:item.view.frame fromView:item.collectionView];
     [self.subWindow setFrame:NSMakeRect(item.view.window.frame.origin.x
                                         + item.view.frame.origin.x
-                                        - _edgeOffset, item.view.window.frame.origin.y
-                                        + item.view.window.contentView.frame.size.height
-                                        - item.view.frame.size.height - item.view.frame.origin.y
-                                        - _edgeOffset, item.view.bounds.size.width
-                                        + _edgeOffset * 2, item.view.bounds.size.height
+                                        - _edgeOffset
+                                        ,item.view.window.frame.origin.y
+                                        + rect.origin.y
+                                        - _edgeOffset
+                                        , item.view.bounds.size.width
+                                        + _edgeOffset * 2
+                                        , item.view.bounds.size.height
                                         + _edgeOffset * 2) display:YES];
     //-------------------------------------------------------------------
     //-------------------------在此处创建contentView----------------------
@@ -85,7 +89,9 @@ static ShareMenu *menu = nil;
 }
 //关闭
 -(void)close{
-    [NSApp.keyWindow removeChildWindow:self.subWindow];
-    self.subWindow = nil;
+    if (_subWindow) {
+        [NSApp.keyWindow removeChildWindow:self.subWindow];
+        self.subWindow = nil;
+    }
 }
 @end
