@@ -83,7 +83,7 @@ static ShareMenu *menu = nil;
         context.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 //        redView.animator.alphaValue = 0.99;
         tmpView.animator.alphaValue = 0.8;
-        [NSApp.keyWindow.animator addChildWindow:self.subWindow ordered:NSWindowAbove];
+        [item.view.window.animator addChildWindow:self.subWindow ordered:NSWindowAbove];
     } completionHandler:nil];
     
 }
